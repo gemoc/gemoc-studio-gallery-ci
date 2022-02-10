@@ -1,0 +1,65 @@
+/*******************************************************************************
+ * Copyright (c) 2022 Inria
+ * This program and the accompanying materials are made available under the 
+ * terms of the Eclipse Public License 2.0 which is available at
+ * http://www.eclipse.org/legal/epl-2.0.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ * Contributors: see AUTHORS file
+ *******************************************************************************/
+target "GEMOCStudio Target platform"
+
+with source requirements
+environment JavaSE-11
+
+location eclipse "https://download.eclipse.org/releases/2021-12" {
+	// features
+	org.eclipse.acceleo.feature.group
+	org.eclipse.e4.rcp.feature.group
+	org.eclipse.ecf.filetransfer.feature.feature.group
+	org.eclipse.ecf.filetransfer.httpclient45.feature.feature.group
+	org.eclipse.ecf.filetransfer.ssl.feature.feature.group
+	org.eclipse.egit.feature.group
+	org.eclipse.emf.feature.group
+	org.eclipse.emf.compare.feature.group
+	org.eclipse.emf.compare.rcp
+	org.eclipse.emf.compare.ide.ui.feature.group
+	org.eclipse.emf.ecoretools.sdk.feature.group
+	org.eclipse.emf.mwe2.runtime.sdk.feature.group
+	org.eclipse.emf.mwe2.launcher.feature.group
+	org.eclipse.emf.mwe2.language.sdk.feature.group
+	org.eclipse.emf.query.sdk.feature.group
+	org.eclipse.epp.mpc.feature.group
+	org.eclipse.equinox.p2.sdk.feature.group
+	org.eclipse.equinox.executable.feature.group
+	org.eclipse.m2e.feature.feature.group
+	org.eclipse.m2e.logback.feature.feature.group
+	org.eclipse.m2m.qvt.oml.feature.group
+	org.eclipse.m2m.qvt.oml.editor.feature.group
+	org.eclipse.m2m.qvt.oml.runtime.feature.group
+	org.eclipse.m2m.qvt.oml.sdk.feature.group
+	org.eclipse.ocl.examples.feature.group
+	//org.eclipse.cdt.feature.group
+	org.eclipse.rcp.feature.group
+	org.eclipse.sdk.feature.group
+	org.eclipse.swtbot.eclipse.feature.group
+	org.eclipse.swtbot.ide.feature.group
+	org.eclipse.swtbot.feature.group
+	org.eclipse.wst.xml_core.feature.feature.group
+	org.eclipse.wst.xml_ui.feature.feature.group
+	org.eclipse.xtext.sdk.feature.group
+	org.eclipse.xtend.sdk.feature.group
+	// individual plugins
+	ch.qos.logback.classic
+	org.apache.commons.lang3
+	org.apache.xalan
+
+
+}
+
+
+location gemoc_dsl_bootstrap "http://download.eclipse.org/gemoc/updates/releases/3.4.0" {
+	org.eclipse.gemoc.gemoc_studio.branding.feature.feature.group
+	org.eclipse.gemoc.gemoc_studio.additions.feature.feature.group
+}
+

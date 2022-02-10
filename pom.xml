@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2017 Inria and others. All rights reserved. This program 
+	and the accompanying materials are made available under the terms of the 
+	Eclipse Public License v1.0 which accompanies this distribution, and is available 
+	at http://www.eclipse.org/legal/epl-v10.html Contributors: Inria - initial 
+	API and implementation -->
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.eclipse.gemoc.gemoc-studio-gallery-ci.bundle</groupId>
+	<artifactId>org.eclipse.gemoc.gemoc_studio-ci.parent</artifactId>
+	<name>gemoc_studio_gallery_ci root with tycho</name>
+	<version>3.5.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+		<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.deploy.skip>true</maven.deploy.skip>
+		
+		<tycho-version>2.5.0</tycho-version>
+    	<xtend.version>2.25.0</xtend.version>
+	</properties>
+
+	<modules>
+		<module>plugins/tests/org.eclipse.gemoc.studio.gallery.tests</module>
+
+		<module>releng/org.eclipse.gemoc.studio.gallery.targetplatform</module>
+
+	</modules>
+
+	<repositories>
+	</repositories>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<extensions>true</extensions>
+			</plugin>
+			<!-- disable source feature generation -->
+			<plugin>
+				<groupId>org.eclipse.tycho.extras</groupId>
+				<artifactId>tycho-source-feature-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>target-platform-configuration</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<target>
+                        <artifact>
+                            <groupId>org.eclipse.gemoc.gemoc-studio-gallery-ci.bundle</groupId>
+                            <artifactId>org.eclipse.gemoc.studio.gallery.targetplatform</artifactId>
+                            <version>3.5.0-SNAPSHOT</version>
+                            <classifier>gemoc_studio</classifier>
+                        </artifact>
+                    </target>
+					<!-- environments that will be built -->
+					<environments>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<!-- <environment> <os>linux</os> <ws>gtk</ws> <arch>x86</arch> </environment> 
+							<environment> <os>win32</os> <ws>win32</ws> <arch>x86</arch> </environment> -->
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>macosx</os>
+							<ws>cocoa</ws>
+							<arch>x86_64</arch>
+						</environment>
+					</environments>
+				</configuration>
+			</plugin>
+			<!-- Java compiler plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+	<profiles>
+		<!-- Profiles are used for easier test of the build, allowing to compile 
+			for a single OS -->
+		<!-- combined with offline mode, the build is relatively fast -->
+		<profile>
+			<!-- use this command line to activate this profile -->
+			<!-- mvn clean package -Denvironment=test_win32 -->
+			<!-- or directly with the ID using the eclipse UI -->
+			<id>test_win64</id>
+			<activation>
+				<property>
+					<name>environment</name>
+					<value>test_win64</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>target-platform-configuration</artifactId>
+						<version>${tycho-version}</version>
+						<configuration>
+							<target>
+		                        <artifact>
+		                            <groupId>org.eclipse.gemoc.gemoc-studio.bundle</groupId>
+		                            <artifactId>org.eclipse.gemoc.gemoc_studio.targetplatform</artifactId>
+		                            <version>3.5.0-SNAPSHOT</version>
+		                            <classifier>gemoc_studio</classifier>
+		                        </artifact>
+		                    </target>
+							<!-- environments that will be built in test mode -->
+							<environments>
+								<environment>
+									<os>win32</os>
+									<ws>win32</ws>
+									<arch>x86_64</arch>
+								</environment>
+								<!-- <environment> -->
+								<!-- <os>win32</os> -->
+								<!-- <ws>win32</ws> -->
+								<!-- <arch>x86</arch> -->
+								<!-- </environment> -->
+							</environments>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<!-- use this command line to activate this profile -->
+			<!-- mvn clean package -Denvironment=test_linux -->
+			<!-- or directly with the ID using the eclipse UI -->
+			<id>test_linux</id>
+			<activation>
+				<property>
+					<name>environment</name>
+					<value>test_linux</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>target-platform-configuration</artifactId>
+						<version>${tycho-version}</version>
+						<configuration>
+							<target>
+		                        <artifact>
+		                            <groupId>org.eclipse.gemoc.gemoc-studio.bundle</groupId>
+		                            <artifactId>org.eclipse.gemoc.gemoc_studio.targetplatform</artifactId>
+		                            <version>3.5.0-SNAPSHOT</version>
+		                            <classifier>gemoc_studio</classifier>
+		                        </artifact>
+		                    </target>
+							<!-- environments that will be built in test mode -->
+							<environments>
+								<environment>
+									<os>linux</os>
+									<ws>gtk</ws>
+									<arch>x86_64</arch>
+								</environment>
+							</environments>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project> 

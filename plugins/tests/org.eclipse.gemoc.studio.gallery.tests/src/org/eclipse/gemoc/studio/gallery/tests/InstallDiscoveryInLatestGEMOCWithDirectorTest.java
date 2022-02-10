@@ -33,7 +33,6 @@ class InstallDiscoveryInLatestGEMOCWithDirectorTest extends AbstractInstallDisco
 
 	@AfterEach
 	void tearDown() throws Exception {
-		tearDownAfterClass(workspace_path);
 	}
 	
 	@ParameterizedTest

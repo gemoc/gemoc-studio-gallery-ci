@@ -8,7 +8,7 @@ pipeline {
 	}
     tools {
         maven 'apache-maven-latest'
-      //  jdk 'open-jdk-11'
+        jdk 'local-open-jdk-11'
     }
     stages {
 		stage('Verify GEMOC Gallery Status') {

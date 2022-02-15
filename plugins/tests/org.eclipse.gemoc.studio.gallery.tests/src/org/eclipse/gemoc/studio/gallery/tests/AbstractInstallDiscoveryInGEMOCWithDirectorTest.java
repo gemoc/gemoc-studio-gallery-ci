@@ -37,6 +37,7 @@ class AbstractInstallDiscoveryInGEMOCWithDirectorTest {
 			FileOutputStream fileOutputStream = new FileOutputStream(getDownloadedGEMOCStudioPath(workspacePath));
 			fileOutputStream.getChannel()
 			  .transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
+			System.out.println("GEMOC Studio downloaded in "+getDownloadedGEMOCStudioPath(workspacePath));
 		}
 	}
 

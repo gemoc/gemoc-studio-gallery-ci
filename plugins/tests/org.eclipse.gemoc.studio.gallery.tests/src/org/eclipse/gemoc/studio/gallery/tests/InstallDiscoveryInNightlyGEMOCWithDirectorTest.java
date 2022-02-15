@@ -13,6 +13,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 class InstallDiscoveryInNightlyGEMOCWithDirectorTest extends AbstractInstallDiscoveryInGEMOCWithDirectorTest {
 
+	
 	final static String GEMOC_STUDIO_URL= "https://download.eclipse.org/gemoc/packages/nightly/gemoc_studio-linux.gtk.x86_64.zip";
 	static String workspace_path = Paths.get("target","workspace").toFile().getAbsolutePath(); // default to current dir
 	
@@ -29,10 +30,12 @@ class InstallDiscoveryInNightlyGEMOCWithDirectorTest extends AbstractInstallDisc
 
 	@BeforeEach
 	void setUp() throws Exception {
+		super.setUpBeforeEach(GEMOC_STUDIO_URL, workspace_path);
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
+		super.tearDownAfterEach(GEMOC_STUDIO_URL, workspace_path);
 	}
 	
 	@ParameterizedTest(name = "installFromDeclaredDiscovery[''{0}'']")

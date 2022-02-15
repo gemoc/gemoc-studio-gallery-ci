@@ -29,10 +29,12 @@ class InstallDiscoveryInReleasedGEMOCWithDirectorTest extends AbstractInstallDis
 
 	@BeforeEach
 	void setUp() throws Exception {
+		super.setUpBeforeEach(GEMOC_STUDIO_URL, workspace_path);
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
+		super.tearDownAfterEach(GEMOC_STUDIO_URL, workspace_path);
 	}
 	
 	@ParameterizedTest(name = "installFromDeclaredDiscovery[''{0}'']")

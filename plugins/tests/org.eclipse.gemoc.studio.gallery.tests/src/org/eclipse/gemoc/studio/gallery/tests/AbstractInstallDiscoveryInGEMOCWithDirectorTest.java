@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -47,9 +48,26 @@ class AbstractInstallDiscoveryInGEMOCWithDirectorTest {
 			new File(getDownloadedGEMOCStudioPath(workspacePath)).delete();
 		}
 	}
+	
+	InstallableComponentWrapper lastInstallableComponentWrapper;
+	
+	void setUpBeforeEach(String gemocStudioUrl, String workspacePath) throws Exception {
+		System.out.println("setUpBeforeEach ");
+	}
+	void tearDownAfterEach(String gemocStudioUrl, String workspacePath) throws Exception {
+		String workdir = getWorkdirPath(lastInstallableComponentWrapper, workspacePath);
+		System.out.println("tearDownAfterEach "+workdir);
+		if(new File(workdir).exists()) {
+			System.out.println("Removing "+workdir);
+			Files.walk(new File(workdir).toPath())
+		      .sorted(Comparator.reverseOrder())
+		      .map(Path::toFile)
+		      .forEach(File::delete);
+		}
+	}
 
 	void installFromDeclaredDiscovery(InstallableComponentWrapper icw, String workspacePath) throws IOException {
-		
+		lastInstallableComponentWrapper = icw;
 		System.out.println("Unzipping GEMOC Studio dedicated copy in "+getWorkdirPath(icw, workspacePath));
 		unzipFolder(getDownloadedGEMOCStudioPath(workspacePath), new File(getWorkdirPath(icw, workspacePath)));
 		Files.setPosixFilePermissions(Path.of(getWorkdirPath(icw, workspacePath)+"/GemocStudio"), PosixFilePermissions.fromString("rwxr-xr-x"));
@@ -137,34 +155,33 @@ class AbstractInstallDiscoveryInGEMOCWithDirectorTest {
 	
 	public static void unzipFolder(String zipFile, File destDir) throws IOException {
 		byte[] buffer = new byte[1024];
-        ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFile));
-        ZipEntry zipEntry = zis.getNextEntry();
-        while (zipEntry != null) {
-            File newFile = newFile(destDir, zipEntry);
-            if (zipEntry.isDirectory()) {
-                if (!newFile.isDirectory() && !newFile.mkdirs()) {
-                    throw new IOException("Failed to create directory " + newFile);
-                }
-            } else {
-                // fix for Windows-created archives
-                File parent = newFile.getParentFile();
-                if (!parent.isDirectory() && !parent.mkdirs()) {
-                    throw new IOException("Failed to create directory " + parent);
-                }
-                
-                // write file content
-                FileOutputStream fos = new FileOutputStream(newFile);
-                int len;
-                while ((len = zis.read(buffer)) > 0) {
-                    fos.write(buffer, 0, len);
-                }
-                fos.close();
-            }
-        zipEntry = zis.getNextEntry();
-       }
-        
-        zis.closeEntry();
-        zis.close();
+		try (ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFile)) ) {
+	        ZipEntry zipEntry = zis.getNextEntry();
+	        while (zipEntry != null) {
+	            File newFile = newFile(destDir, zipEntry);
+	            if (zipEntry.isDirectory()) {
+	                if (!newFile.isDirectory() && !newFile.mkdirs()) {
+	                    throw new IOException("Failed to create directory " + newFile);
+	                }
+	            } else {
+	                // fix for Windows-created archives
+	                File parent = newFile.getParentFile();
+	                if (!parent.isDirectory() && !parent.mkdirs()) {
+	                    throw new IOException("Failed to create directory " + parent);
+	                }
+	                
+	                // write file content
+	                FileOutputStream fos = new FileOutputStream(newFile);
+	                int len;
+	                while ((len = zis.read(buffer)) > 0) {
+	                    fos.write(buffer, 0, len);
+	                }
+	                fos.close();
+	            }
+	        zipEntry = zis.getNextEntry();
+	        }
+	        zis.closeEntry();
+		}
 	}
 	public static File newFile(File destinationDir, ZipEntry zipEntry) throws IOException {
 	    File destFile = new File(destinationDir, zipEntry.getName());

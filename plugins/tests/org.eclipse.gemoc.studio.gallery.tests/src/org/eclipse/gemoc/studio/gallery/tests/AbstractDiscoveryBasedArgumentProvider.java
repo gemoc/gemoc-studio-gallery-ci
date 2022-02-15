@@ -24,6 +24,7 @@ public abstract class AbstractDiscoveryBasedArgumentProvider implements Argument
 
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext context) throws Exception {
+		System.out.println("Getting Discovery catalog from "+getDiscoveryCatalogURI());
 		ResourceSet resSet = new ResourceSetImpl();
 	    Resource resource = resSet.getResource(URI.createURI(getDiscoveryCatalogURI()), true);
 	    resource.load(Collections.EMPTY_MAP);
@@ -34,6 +35,7 @@ public abstract class AbstractDiscoveryBasedArgumentProvider implements Argument
 				icArgs.add(Arguments.of(new InstallableComponentWrapper(ic)));
 			}
 		}
+	    System.out.println("Discovery catalog contains "+icArgs.size()+" entries");
 		return icArgs.stream();
 	}
 	

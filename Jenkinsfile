@@ -15,6 +15,8 @@ pipeline {
 			steps { 
 				script {	
 					withEnv(["MAVEN_OPTS=-Xmx3000m -XshowSettings:vm -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -Dmaven.wagon.http.ssl.ignore.validity.dates=true"]){
+					    sh "echo $JAVA_HOME"
+					    sh "java -version"
 						sh "mvn clean verify --show-version "     
 					}
 				}

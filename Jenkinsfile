@@ -14,8 +14,8 @@ pipeline {
 		stage('Verify GEMOC Gallery Status') {
 			steps { 
 				script {	
-					withEnv(["MAVEN_OPTS=-Xmx2000m -XshowSettings:vm"]){
-						sh "mvn clean verify --errors --show-version "     
+					withEnv(["MAVEN_OPTS=-Xmx2000m -XshowSettings:vm -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -Dmaven.wagon.http.ssl.ignore.validity.dates=true"]){
+						sh "mvn clean verify --show-version "     
 					}
 				}
 			}

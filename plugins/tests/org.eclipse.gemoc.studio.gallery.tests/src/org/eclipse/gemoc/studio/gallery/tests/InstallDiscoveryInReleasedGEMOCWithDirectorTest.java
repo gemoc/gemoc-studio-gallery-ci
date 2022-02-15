@@ -11,9 +11,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 
-class InstallDiscoveryInLatestGEMOCWithDirectorTest extends AbstractInstallDiscoveryInGEMOCWithDirectorTest {
+class InstallDiscoveryInReleasedGEMOCWithDirectorTest extends AbstractInstallDiscoveryInGEMOCWithDirectorTest {
 
-	final static String GEMOC_STUDIO_URL= "https://download.eclipse.org/gemoc/packages/nightly/gemoc_studio-linux.gtk.x86_64.zip";
+	final static String GEMOC_STUDIO_URL= "https://www.eclipse.org/downloads/download.php?file=/gemoc/packages/releases/3.4.0/gemoc_studio-linux.gtk.x86_64.zip&r=1";
 	static String workspace_path = Paths.get("target","workspace").toFile().getAbsolutePath(); // default to current dir
 	
 	
@@ -35,8 +35,8 @@ class InstallDiscoveryInLatestGEMOCWithDirectorTest extends AbstractInstallDisco
 	void tearDown() throws Exception {
 	}
 	
-	@ParameterizedTest
-	@ArgumentsSource(DiscoveryBasedArgumentProvider_3_1.class)
+	@ParameterizedTest(name = "installFromDeclaredDiscovery[''{0}'']")
+	@ArgumentsSource(DiscoveryBasedArgumentProvider_3_1.class) // adapt here to change the version of the discovery
 	void installFromDeclaredDiscovery(InstallableComponentWrapper icw) throws IOException {
 		installFromDeclaredDiscovery(icw, workspace_path);
 		
